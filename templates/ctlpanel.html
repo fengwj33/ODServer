@@ -1,0 +1,104 @@
+$def with (filelist,statuslist)
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ControlPanel</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function loadpanels(list,stat) {
+			document.write("<div id=\"maindiv\" style=\"margin:0 auto;width:500px;height:"+((list.length)*60+10)+"px;background-color:#FFFFCC;text-align:center\">");
+			for(var i=0;i<list.length;i++)
+			{
+				document.write(""+
+				"	<div style=\"position:relative;top:5px;margin:0 auto;width:450px;height:60px;background-color:#CCFFFF\">"+		
+				"		<div style=\"text-align:left\">&nbsp;"+
+				"			"+list[i]+""+
+				"		</div>"+			
+				"		<div style=\"text-align:center\">");
+				if(stat[i]=="finish")
+				{
+					document.write(""+
+					"			<button type=\"button\" onclick=\"delfile(this.value)\" value=\""+i+"\">delete</button>	"+
+					"			<button type=\"button\" onclick=\"getfile(this.value)\" value=\""+i+"\">download</button>		"	);
+				}
+				else 
+				{
+					document.write("<div style=\"text-align:center\">downloading</div>");
+				}
+
+				
+				
+				document.write(""+
+				"		</div>"+
+				"	</div>"+
+				"");
+				
+			}
+			document.write("</div>");
+		}
+		function get(PARAMS)
+		{
+			var URL =window.location.pathname;
+			var data = "?";
+			for (var x in PARAMS)
+				data += x + "=" + PARAMS[x] + "&";
+			data = data.slice(0, data.length-1);
+			window.location.href=URL + data
+		}
+		function post(PARAMS) {
+			var URL =window.location.pathname;
+			var temp = document.createElement("form");
+			temp.action = URL;
+			temp.method = "post";
+			temp.style.display = "none";
+			for (var x in PARAMS) {
+				var opt = document.createElement("textarea");
+				opt.name = x;
+				opt.value = PARAMS[x];
+				temp.appendChild(opt);
+			}
+			document.body.appendChild(temp);
+			temp.submit();
+			return temp;
+		}
+		function submitcmd() {
+			get({x:'2333',y:'4555'});
+		}
+		function delfile(fid) {
+			get({cmd:'del',id:fid});
+			
+		}
+		function getfile(fid) {
+			get({cmd:'get',id:fid});
+		}
+		function addTask(){
+			var wurl=document.getElementById("txturl").value;
+			var wfile=document.getElementById("txtfile").value	;
+			post({cmd:'add',url:wurl,file:wfile});
+		}
+		function logout() {
+			window.location.href="\logout";
+		}
+	</script>
+	
+	
+
+	<script type="text/javascript">
+		loadpanels($:filelist,$:statuslist);
+	</script>
+	
+	<div style="margin:0 auto;width:500px;height:90px;background-color:#EEEEEE;text-align:center">
+		<form style="position:relative;top:10px;">
+			Url:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="txturl"><br>
+			SaveAs.:<input type="password" id="txtfile"><br>
+			<button type="button" onclick="addTask()">download</button>
+		</form>
+	</div>
+	<div style="margin:0 auto;width:500px;height:90px;text-align:center">
+		<button type="button" onclick="logout()">logout</button>
+	</div>
+</body>
+</html>
+ 

@@ -1,0 +1,18 @@
+$def with (message)
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>login</title>
+</head>
+	<body>
+		<div style="text-align:center">$message</div>
+		<div style="margin:0 auto;width:500px;height:300px;background-color:#EEEEEE;text-align:center">
+			<form style="position:relative;top:100px;" method ="Post">
+				password:<input type="password" name="pwd"><br>
+				<input type="submit" value="Submit">
+			</form>
+		</div>
+	</body>
+</html>
+ 
