@@ -5,6 +5,7 @@ import down
 import pickle
 web.config.debug = False
 urls = (
+    "/","login",
     "/login", "login",
     "/logout", "logout",
     "/ctlpanel","ctlpanel",
