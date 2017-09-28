@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import pickle
+import sys
 def getFileList():
     file=open("tasks","rb+")
     list=pickle.load(file)
@@ -36,5 +37,13 @@ def download(url,filename):
     file.close()
     os.system("nohup ./download.sh \""+url+"\" \""+filename+"\" &")
     return True
-    
+def addLocal(filename):
+    os.system("echo \"finish\" >>" +sys.path[0]+"/static/" + filename +".finish")
+    file=open("tasks","rb+")
+    list=pickle.load(file)
+    file.close()
+    list.append(filename)
+    file=open("tasks","wb")
+    pickle.dump(list,file)
+    file.close()
     

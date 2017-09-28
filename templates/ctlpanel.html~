@@ -96,6 +96,12 @@ $def with (filelist,statuslist)
 			<button type="button" onclick="addTask()">download</button>
 		</form>
 	</div>
+	<div style="margin:0 auto;width:500px;height:90px;background-color:#EEEEEE;text-align:center">
+		<form method="POST" enctype="multipart/form-data" action="" style="position:relative;top:10px;">
+			LocalFile:<input type="file" name="myfile" /><br>
+			<input type="submit" />
+		</form>
+	</div>
 	<div style="margin:0 auto;width:500px;height:90px;text-align:center">
 		<button type="button" onclick="logout()">logout</button>
 	</div>

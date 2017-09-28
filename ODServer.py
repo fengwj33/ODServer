@@ -3,6 +3,7 @@
 import web
 import down
 import pickle
+import sys
 web.config.debug = False
 urls = (
     "/","login",
@@ -54,10 +55,23 @@ class ctlpanel:
         else:
             raise web.seeother('/login')
     def POST(self):
-        print(web.input())
-        if web.input()["cmd"]=="add":
-            down.download(web.input()["url"],web.input()["file"])
-        raise web.seeother('/ctlpanel')
+        if web.input().__contains__("cmd"):
+            if web.input()["cmd"]=="add":
+                down.download(web.input()["url"],web.input()["file"])
+            raise web.seeother('/ctlpanel')
+        else:
+            x = web.input(myfile={})
+            filedir = sys.path[0]+"/static"
+            if 'myfile' in x:
+                filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+                filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+                fout = open(filedir +'/'+ filename,'wb+') # creates the file where the uploaded file should be stored
+                fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+                fout.close() # closes the file, upload complete.
+            down.addLocal(filename)
+            raise web.seeother('/ctlpanel')
+            
+        
 class logout:
     def GET(self):
         session.login=False
