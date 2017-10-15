@@ -4,6 +4,7 @@ import web
 import down
 import pickle
 import sys
+import urllib
 web.config.debug = False
 urls = (
     "/","login",
@@ -46,7 +47,7 @@ class ctlpanel:
                     down.removeFile(int(web.input()["id"]))
                 elif web.input()["cmd"]=="get":
                     list=down.getFileList()
-                    raise web.seeother('/static/'+list[0][int(web.input()["id"])])
+                    raise web.seeother( urllib.parse.quote('/static/'+list[0][int(web.input()["id"])]))
                 raise web.seeother('/ctlpanel')
             else:
                 list=down.getFileList()
@@ -65,6 +66,7 @@ class ctlpanel:
             if 'myfile' in x:
                 filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
                 filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+                filename=filename.replace(" ","_")
                 fout = open(filedir +'/'+ filename,'wb+') # creates the file where the uploaded file should be stored
                 fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
                 fout.close() # closes the file, upload complete.
